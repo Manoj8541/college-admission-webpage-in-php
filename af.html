@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Admission Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #d44bbd 0%, #10bfeb 100%);
+            min-height: 100vh;
+            padding: 50px 0;
+        }
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.2);
+        }
+        h2 {
+            color: #4a4a4a;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h3 {
+            color: #6a5acd;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #6a5acd;
+            padding-bottom: 10px;
+        }
+        .form-label {
+            font-weight: bold;
+            color: #4a4a4a;
+        }
+        .btn-submit {
+            background: linear-gradient(45deg, #49d697, #d52172);
+            border: none;
+            color: white;
+            padding: 10px 30px;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        .btn-submit:hover {
+            background: linear-gradient(45deg, #DD2476, #FF512F);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .form-container {
+            animation: fadeIn 1s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h2>College Admission Form</h2>
+            <form action="af.php" method="POST" enctype="multipart/form-data" id="admissionForm">
+                <div class="mb-3">
+                    <label for="admissionNumber" class="form-label">Admission Number</label>
+                    <input type="text" class="form-control" id="admissionNumber" name="admissionNumber" readonly>
+                </div>
+
+                <h3>Personal Information</h3>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="fatherName" class="form-label">Father's Name</label>
+                        <input type="text" class="form-control" id="fatherName" name="fatherName" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="motherName" class="form-label">Mother's Name</label>
+                        <input type="text" class="form-control" id="motherName" name="motherName" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="guardianName" class="form-label">Guardian's Name (Optional)</label>
+                        <input type="text" class="form-control" id="guardianName" name="guardianName">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="phoneNumber" class="form-label">Phone Number</label>
+                        <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="parentPhoneNumber" class="form-label">Parent's Phone Number</label>
+                        <input type="tel" class="form-control" id="parentPhoneNumber" name="parentPhoneNumber" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="email" class="form-label">Email ID</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="aadharNumber" class="form-label">Aadhar Number</label>
+                        <input type="text" class="form-control" id="aadharNumber" name="aadharNumber" required pattern="\d{12}" title="Aadhar number must be 12 digits">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="correspondenceAddress" class="form-label">Correspondence Address</label>
+                    <textarea class="form-control" id="correspondenceAddress" name="correspondenceAddress" rows="3" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="permanentAddress" class="form-label">Permanent Address</label>
+                    <textarea class="form-control" id="permanentAddress" name="permanentAddress" rows="3" required></textarea>
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="sameAsCorrespondence">
+                    <label class="form-check-label" for="sameAsCorrespondence">Same as Correspondence Address</label>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Gender</label>
+                        <div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gender" id="male" value="male" required>
+                                <label class="form-check-label" for="male">Male</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gender" id="female" value="female" required>
+                                <label class="form-check-label" for="female">Female</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gender" id="other" value="other" required>
+                                <label class="form-check-label" for="other">Other</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Nationality</label>
+                        <div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="nationality" id="indian" value="indian" required>
+                                <label class="form-check-label" for="indian">Indian</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="nationality" id="other" value="other" required>
+                                <label class="form-check-label" for="other">Other</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Area</label>
+                        <div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="area" id="rural" value="rural" required>
+                                <label class="form-check-label" for="rural">Rural</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="area" id="urban" value="urban" required>
+                                <label class="form-check-label" for="urban">Urban</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="religion" class="form-label">Religion</label>
+                        <select class="form-select" id="religion" name="religion" required>
+                            <option value="">Select Religion</option>
+                            <option value="h">Hindu</option>
+                            <option value="m">Muslim</option>
+                            <option value="c">Christian</option>
+                            <option value="b">Buddhist</option>
+                            <option value="s">Sikh</option>
+                            <option value="j">Jain</option>
+                            <option value="p">Parsi</option>
+                            <option value="o">Other</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="category" class="form-label">Category</label>
+                        <select class="form-select" id="category" name="category" required>
+                            <option value="">Select Category</option>
+                            <option value="g">General</option>
+                            <option value="o">OBC</option>
+                            <option value="c">SC</option>
+                            <option value="t">ST</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="dob" class="form-label">Date of Birth</label>
+                        <input type="date" class="form-control" id="dob" name="dob" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="birthPlace" class="form-label">Place of Birth</label>
+                        <input type="text" class="form-control" id="birthPlace" name="birthPlace" required>
+                    </div>
+                </div>
+
+                <h3>Course Selection</h3>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="course" class="form-label">Course</label>
+                        <select class="form-select" id="course" name="course" required>
+                            <option value="">Select Course</option>
+                            <!-- Add course options here -->
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="secondLanguage" class="form-label">2nd Language</label>
+                        <select class="form-select" id="secondLanguage" name="secondLanguage" required>
+                            <option value="">Select Language</option>
+                            <option value="k">Kannada</option>
+                            <option value="s">Sanskrit</option>
+                            <option value="h">Hindi</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="firstLanguage" class="form-label">1st Language</label>
+                    <input type="text" class="form-control" id="firstLanguage" name="firstLanguage" value="English" readonly>
+                </div>
+
+                <h3>Educational Details</h3>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="tenthRegNo" class="form-label">10th Register Number</label>
+                        <input type="text" class="form-control" id="tenthRegNo" name="tenthRegNo" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="tenthPercentage" class="form-label">10th Percentage</label>
+                        <input type="number" class="form-control" id="tenthPercentage" name="tenthPercentage" min="0" max="100" step="0.01" required>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="tenthSchool" class="form-label">10th School Name</label>
+                    <textarea class="form-control" id="tenthSchool" name="tenthSchool" rows="2" required></textarea>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="tenthPassedYear" class="form-label">10th Passed Year</label>
+                        <input type="number" class="form-control" id="tenthPassedYear" name="tenthPassedYear" min="1900" max="2099" step="1" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">10th Board</label>
+                        <div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="tenthBoard" id="tenthStateBoard" value="s" required>
+                                <label class="form-check-label" for="tenthStateBoard">State Board</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="tenthBoard" id="tenthCBSE" value="c" required>
+                                <label class="form-check-label" for="tenthCBSE">CBSE</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="tenthBoard" id="tenthICSE" value="i" required>
+                                <label class="form-check-label" for="tenthICSE">ICSE</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add this after the 10th board radio buttons -->
+<div class="row mt-3">
+    <div class="col-md-6 mb-3">
+        <label class="form-label">12th Board</label>
+        <div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="twelfthBoard" id="twelfthStateBoard" value="s" required>
+                <label class="form-check-label" for="twelfthStateBoard">State Board</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="twelfthBoard" id="twelfthCBSE" value="c" required>
+                <label class="form-check-label" for="twelfthCBSE">CBSE</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="twelfthBoard" id="twelfthICSE" value="i" required>
+                <label class="form-check-label" for="twelfthICSE">ICSE</label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label class="form-label">Select 12th Stream</label>
+        <div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="twelfthStream" id="scienceStream" value="s" required>
+                <label class="form-check-label" for="scienceStream">Science</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="twelfthStream" id="commerceStream" value="c" required>
+                <label class="form-check-label" for="commerceStream">Commerce</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="twelfthStream" id="artsStream" value="a" required>
+                <label class="form-check-label" for="artsStream">Arts</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="streamSpecificOptions" class="mt-3" style="display: none;">
+    <label class="form-label">Stream Specific Options</label>
+    <div id="scienceOptions" style="display: none;">
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="scienceOption" id="pcmb" value="PCMB">
+            <label class="form-check-label" for="pcmb">PCMB</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="scienceOption" id="pcmc" value="PCMC">
+            <label class="form-check-label" for="pcmc">PCMC</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="scienceOption" id="scienceOther" value="Other">
+            <label class="form-check-label" for="scienceOther">Other</label>
+        </div>
+    </div>
+    <div id="commerceOptions" style="display: none;">
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="commerceOption" id="eabc" value="EABC">
+            <label class="form-check-label" for="eabc">EABC</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="commerceOption" id="eabs" value="EABS">
+            <label class="form-check-label" for="eabs">EABS</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="commerceOption" id="commerceOther" value="Other">
+            <label class="form-check-label" for="commerceOther">Other</label>
+        </div>
+    </div>
+    <div id="artsOptions" style="display: none;">
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="artsOption" id="haes" value="HAES">
+            <label class="form-check-label" for="haes">HAES</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="artsOption" id="htpg" value="HTPG">
+            <label class="form-check-label" for="htpg">HTPG</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="artsOption" id="artsOther" value="Other">
+            <label class="form-check-label" for="artsOther">Other</label>
+        </div>
+    </div>
+</div>
+
+<div id="streamSpecificOptions" class="mt-3" style="display: none;">
+    <label class="form-label">Stream Specific Options</label>
+    <div id="scienceOptions" style="display: none;">
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="streamOption" id="pcmb" value="PCMB" required>
+            <label class="form-check-label" for="pcmb">PCMB</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="streamOption" id="pcmc" value="PCMC" required>
+            <label class="form-check-label" for="pcmc">PCMC</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="streamOption" id="scienceOther" value="Other" required>
+            <label class="form-check-label" for="scienceOther">Other</label>
+        </div>
+    </div>
+    <div id="commerceOptions" style="display: none;">
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="streamOption" id="eabc" value="EABC" required>
+            <label class="form-check-label" for="eabc">EABC</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="streamOption" id="eabs" value="EABS" required>
+            <label class="form-check-label" for="eabs">EABS</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="streamOption" id="commerceOther" value="Other" required>
+            <label class="form-check-label" for="commerceOther">Other</label>
+        </div>
+    </div>
+    <div id="artsOptions" style="display: none;">
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="streamOption" id="haes" value="HAES" required>
+            <label class="form-check-label" for="haes">HAES</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="streamOption" id="htpg" value="HTPG" required>
+            <label class="form-check-label" for="htpg">HTPG</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="streamOption" id="artsOther" value="Other" required>
+            <label class="form-check-label" for="artsOther">Other</label>
+        </div>
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col-md-6 mb-3">
+        <label class="form-label">Languages studied in 10th</label>
+        <div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="tenthLanguages[]" id="tenthKannada" value="k">
+                <label class="form-check-label" for="tenthKannada">Kannada</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="tenthLanguages[]" id="tenthEnglish" value="e">
+                <label class="form-check-label" for="tenthEnglish">English</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="tenthLanguages[]" id="tenthSanskrit" value="s">
+                <label class="form-check-label" for="tenthSanskrit">Sanskrit</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="tenthLanguages[]" id="tenthHindi" value="h">
+                <label class="form-check-label" for="tenthHindi">Hindi</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="tenthLanguages[]" id="tenthOther" value="o">
+                <label class="form-check-label" for="tenthOther">Other</label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label class="form-label">Languages studied in 12th</label>
+        <div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="twelfthLanguages[]" id="twelfthKannada" value="k">
+                <label class="form-check-label" for="twelfthKannada">Kannada</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="twelfthLanguages[]" id="twelfthEnglish" value="e">
+                <label class="form-check-label" for="twelfthEnglish">English</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="twelfthLanguages[]" id="twelfthSanskrit" value="s">
+                <label class="form-check-label" for="twelfthSanskrit">Sanskrit</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="twelfthLanguages[]" id="twelfthHindi" value="h">
+                <label class="form-check-label" for="twelfthHindi">Hindi</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="twelfthLanguages[]" id="twelfthOther" value="o">
+                <label class="form-check-label" for="twelfthOther">Other</label>
+            </div>
+        </div>
+    </div>
+</div>
+                <!-- Similar structure for 12th details -->
+
+                <h3>Upload Files</h3>
+                <div class="mb-3">
+                    <label for="tenthMarksCard" class="form-label">10th Marks Card</label>
+                    <input type="file" class="form-control" id="tenthMarksCard" name="tenthMarksCard" accept=".jpg,.jpeg,.png" required>
+                </div>
+                <div class="mb-3">
+                    <label for="twelfthMarksCard" class="form-label">12th Marks Card</label>
+                    <input type="file" class="form-control" id="twelfthMarksCard" name="twelfthMarksCard" accept=".jpg,.jpeg,.png" required>
+                </div>
+                <div class="mb-3">
+                    <label for="aadharCard" class="form-label">Aadhar Card</label>
+                    <input type="file" class="form-control" id="aadharCard" name="aadharCard" accept=".jpg,.jpeg,.png" required>
+                </div>
+                <div class="mb-3">
+                    <label for="photo" class="form-label">Photo</label>
+                    <input type="file" class="form-control" id="photo" name="photo" accept=".jpg,.jpeg,.png" required>
+                </div>
+
+                <button type="submit" class="btn btn-submit">Submit Application</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle 'Same as Correspondence Address' checkbox
+            const sameAddressCheckbox = document.getElementById('sameAsCorrespondence');
+            const permanentAddressTextarea = document.getElementById('permanentAddress');
+            const correspondenceAddressTextarea = document.getElementById('correspondenceAddress');
+
+            sameAddressCheckbox.addEventListener('change', function() {
+                if (this.checked) {
+                    permanentAddressTextarea.value = correspondenceAddressTextarea.value;
+                    permanentAddressTextarea.disabled = true;
+                } else {
+                    permanentAddressTextarea.value = '';
+                    permanentAddressTextarea.disabled = false;
+                }
+            });
+
+            // Aadhar number validation
+            const aadharInput = document.getElementById('aadharNumber');
+            aadharInput.addEventListener('input', function() {
+                this.value = this.value.replace(/\D/g, '');
+                if (this.value.length > 12) {
+                    this.value = this.value.slice(0, 12);
+                }
+                
+                // Check for repeating digits
+                const digitCounts = {};
+                for (let digit of this.value) {
+                    digitCounts[digit] = (digitCounts[digit] || 0) + 1;
+                    if (digitCounts[digit] > 10) {
+                        alert('Aadhar number should not have any digit repeating more than 10 times');
+                        this.value = '';
+                        break;
+                    }
+                }
+            });
+
+            // File size validation
+            const fileInputs = document.querySelectorAll('input[type="file"]');
+            fileInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    if (this.files[0].size > 2 * 1024 * 1024) {
+                        alert('File size should not exceed 2MB');
+                        this.value = '';
+                    }
+                });
+            });
+
+            
+document.addEventListener('DOMContentLoaded', function() {
+    const streamRadios = document.querySelectorAll('input[name="twelfthStream"]');
+    const streamSpecificOptions = document.getElementById('streamSpecificOptions');
+    const scienceOptions = document.getElementById('scienceOptions');
+    const commerceOptions = document.getElementById('commerceOptions');
+    const artsOptions = document.getElementById('artsOptions');
+
+    streamRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            streamSpecificOptions.style.display = 'block';
+            scienceOptions.style.display = 'none';
+            commerceOptions.style.display = 'none';
+            artsOptions.style.display = 'none';
+
+            switch(this.value) {
+                case 's':
+                    scienceOptions.style.display = 'block';
+                    break;
+                case 'c':
+                    commerceOptions.style.display = 'block';
+                    break;
+                case 'a':
+                    artsOptions.style.display = 'block';
+                    break;
+            }
+        });
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const streamRadios = document.querySelectorAll('input[name="twelfthStream"]');
+    const streamSpecificOptions = document.getElementById('streamSpecificOptions');
+    const scienceOptions = document.getElementById('scienceOptions');
+    const commerceOptions = document.getElementById('commerceOptions');
+    const artsOptions = document.getElementById('artsOptions');
+    const streamOptionInputs = document.querySelectorAll('input[name="streamOption"]');
+
+    function resetStreamOptions() {
+        streamSpecificOptions.style.display = 'none';
+        scienceOptions.style.display = 'none';
+        commerceOptions.style.display = 'none';
+        artsOptions.style.display = 'none';
+        streamOptionInputs.forEach(input => {
+            input.checked = false;
+            input.required = false;
+        });
+    }
+
+    streamRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            resetStreamOptions();
+            streamSpecificOptions.style.display = 'block';
+
+            switch(this.value) {
+                case 's':
+                    scienceOptions.style.display = 'block';
+                    document.querySelectorAll('#scienceOptions input[name="streamOption"]').forEach(input => input.required = true);
+                    break;
+                case 'c':
+                    commerceOptions.style.display = 'block';
+                    document.querySelectorAll('#commerceOptions input[name="streamOption"]').forEach(input => input.required = true);
+                    break;
+                case 'a':
+                    artsOptions.style.display = 'block';
+                    document.querySelectorAll('#artsOptions input[name="streamOption"]').forEach(input => input.required = true);
+                    break;
+            }
+        });
+    });
+});
+            // Form submission
+            document.getElementById('admissionForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                // You can add additional client-side validation here
+                this.submit();
+            });
+        });
+    </script>
+</body>
+</html>

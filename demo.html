@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Event Demo — Single File</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#0f1724;--card:#0b1622;--accent:#06b6d4;--muted:#94a3b8;--glass:rgba(255,255,255,0.03)}
+    *{box-sizing:border-box}
+    html,body{height:100%;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;margin:0;background:linear-gradient(180deg,#071428 0%, #071d2a 60%);color:#e6eef6}
+    .container{max-width:1100px;margin:28px auto;padding:20px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:18px;box-shadow:0 8px 30px rgba(2,6,23,0.6);}
+    header{display:flex;gap:16px;align-items:center}
+    .logo{width:68px;height:68px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#7c3aed);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;color:#021224}
+    h1{margin:0;font-size:20px}
+    .meta{color:var(--muted);font-size:13px}
+    .hero{display:grid;grid-template-columns:1fr 340px;gap:20px;margin-top:18px}
+    .hero-left img{width:100%;height:220px;object-fit:cover;border-radius:10px}
+    .about{margin-top:12px;color:var(--muted);line-height:1.45}
+    .schedule, .speakers{margin-top:18px}
+    .schedule ul{list-style:none;padding:0;margin:0}
+    .schedule li{display:flex;justify-content:space-between;padding:10px;border-radius:8px;background:var(--glass);margin-bottom:8px}
+    .speakers-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .speaker{display:flex;gap:12px;align-items:center;padding:10px;background:rgba(255,255,255,0.02);border-radius:8px}
+    .speaker img{width:56px;height:56px;border-radius:8px;object-fit:cover}
+    .sidebar{background:rgba(255,255,255,0.02);padding:12px;border-radius:8px}
+    .rsvp input, .rsvp select{width:100%;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit;margin-bottom:8px}
+    .btn{display:inline-block;padding:9px 12px;border-radius:8px;background:var(--accent);color:#012025;text-decoration:none;font-weight:600;border:none;cursor:pointer}
+    .secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+    .gallery{display:flex;gap:8px;margin-top:10px}
+    .gallery img{width:100%;height:80px;object-fit:cover;border-radius:6px}
+    .responses{margin-top:14px}
+    table{width:100%;border-collapse:collapse;color:inherit}
+    th,td{padding:8px;border-bottom:1px dashed rgba(255,255,255,0.03);text-align:left}
+    footer{margin-top:18px;color:var(--muted);font-size:13px}
+    .controls{display:flex;gap:8px;flex-wrap:wrap}
+    @media(max-width:900px){.hero{grid-template-columns:1fr}.sidebar{order:3}.hero-left img{height:180px}.speakers-grid{grid-template-columns:1fr}}
+    /* Print card styles */
+    @media print{body *:not(#printable){display:none}#printable{display:block}} 
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <header>
+        <div class="logo">EV</div>
+        <div>
+          <h1 id="event-title">Annual Tech Meetup</h1>
+          <div class="meta" id="event-meta">October 18, 2025 • City Conference Center, Hall A</div>
+        </div>
+        <div style="margin-left:auto;text-align:right">
+          <div class="meta">Demo for: <strong id="orgName">Example Org</strong></div>
+          <div style="margin-top:8px" class="controls">
+            <button class="btn" id="downloadCsv">Export RSVPs</button>
+            <button class="btn secondary" id="printCardBtn">Print Event Card</button>
+          </div>
+        </div>
+      </header>
+
+      <div class="hero">
+        <div>
+          <div class="hero-left">
+            <img id="heroImage" src="https://images.unsplash.com/photo-1531058020387-3be344556be6?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=7a2f5a3b2b8f8f6a9ee1a7d5d2c7b6a4" alt="hero">
+          </div>
+          <div class="about" id="event-desc">Join us for a day of talks, hands-on workshops, and networking with engineers, designers, and founders. Snacks and lunch provided.</div>
+
+          <section class="schedule card-section">
+            <h3>Schedule</h3>
+            <div class="schedule">
+              <ul id="scheduleList"></ul>
+            </div>
+          </section>
+
+          <section class="speakers">
+            <h3>Speakers</h3>
+            <div class="speakers-grid" id="speakersGrid"></div>
+          </section>
+
+          <section class="gallery-section">
+            <h3>Gallery</h3>
+            <div class="gallery" id="gallery"></div>
+          </section>
+        </div>
+
+        <aside class="sidebar">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <strong>RSVP</strong>
+            <small class="meta">Seats left: <span id="seatsLeft">--</span></small>
+          </div>
+          <form id="rsvpForm" class="rsvp" autocomplete="off">
+            <input name="name" id="name" placeholder="Your name" required />
+            <input name="email" id="email" placeholder="Email address" required />
+            <select name="tickets" id="tickets">
+              <option value="1">1 ticket</option>
+              <option value="2">2 tickets</option>
+              <option value="3">3 tickets</option>
+            </select>
+            <button class="btn" type="submit">Reserve</button>
+          </form>
+
+          <div class="responses">
+            <h4>Recent RSVPs</h4>
+            <div id="recentList" style="font-size:13px;color:var(--muted)"></div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <h3>Attendee List</h3>
+        <div style="overflow:auto;max-height:220px">
+          <table id="attTable">
+            <thead><tr><th>Name</th><th>Email</th><th>Tickets</th><th>Time</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <footer>
+          Contact: <span id="contactInfo">events@example.org • +91 98765 43210</span>
+        </footer>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Printable card (hidden) -->
+  <div id="printable" style="display:none;padding:18px;background:white;color:#021224;width:300px;margin:20px;border-radius:8px" >
+    <h2 id="pTitle">Event</h2>
+    <div id="pMeta">Date • Venue</div>
+    <p id="pDesc"></p>
+  </div>
+
+  <script>
+    // Sample event data (edit as needed)
+    const event = {
+      org: 'Example Org',
+      title: 'Annual Tech Meetup',
+      date: 'October 18, 2025',
+      time: '10:00 AM - 4:00 PM',
+      location: 'City Conference Center, Hall A',
+      description: 'Join us for a day of talks, hands-on workshops, and networking with engineers, designers, and founders. Snacks and lunch provided.',
+      hero: document.getElementById('heroImage').src,
+      seats: 120,
+      schedule: [
+        {time:'10:00',title:'Registration & Breakfast'},
+        {time:'10:45',title:'Opening Remarks'},
+        {time:'11:00',title:'Keynote: The Future of Web'},
+        {time:'12:30',title:'Lunch & Networking'},
+        {time:'14:00',title:'Workshop: Build a Serverless App'},
+        {time:'16:00',title:'Closing'}
+      ],
+      speakers:[
+        {name:'Priya Shah',title:'CTO, StartupX',bio:'Frontend & infra lover.',photo:'https://randomuser.me/api/portraits/women/44.jpg'},
+        {name:'Arjun Rao',title:'Engineering Manager',bio:'API design and distributed systems.',photo:'https://randomuser.me/api/portraits/men/46.jpg'}
+      ],
+      gallery:[
+        'https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=8f2d0b2c6a3b4a2b8f0d3d6a7c5b1f4e',
+        'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=1f4b3d9b6c7a8d2e3f4a5b6c7d8e9f0a'
+      ],
+      contact: {email:'events@example.org',phone:'+91 98765 43210'}
+    }
+
+    // State
+    let attendees = JSON.parse(localStorage.getItem('rsvps_demo')||'[]');
+
+    // Init UI
+    document.getElementById('event-title').textContent = event.title;
+    document.getElementById('event-meta').textContent = event.date + ' • ' + event.location;
+    document.getElementById('orgName').textContent = event.org;
+    document.getElementById('event-desc').textContent = event.description;
+    document.getElementById('contactInfo').textContent = event.contact.email + ' • ' + event.contact.phone;
+    document.getElementById('seatsLeft').textContent = event.seats - attendees.reduce((s,a)=>s+a.tickets,0);
+
+    // Render schedule
+    const scheduleList = document.getElementById('scheduleList');
+    event.schedule.forEach(it=>{
+      const li = document.createElement('li');
+      li.innerHTML = `<strong>${it.time}</strong><span>${it.title}</span>`;
+      scheduleList.appendChild(li);
+    })
+
+    // Speakers
+    const speakersGrid = document.getElementById('speakersGrid');
+    event.speakers.forEach(s=>{
+      const div = document.createElement('div');div.className='speaker';
+      div.innerHTML = `<img src="${s.photo}" alt="${s.name}"><div><strong>${s.name}</strong><div style="font-size:13px;color:var(--muted)">${s.title}</div><div style="font-size:12px;color:var(--muted)">${s.bio}</div></div>`;
+      speakersGrid.appendChild(div);
+    })
+
+    // Gallery
+    const gallery = document.getElementById('gallery');
+    event.gallery.forEach(g=>{const img=document.createElement('img'); img.src=g; gallery.appendChild(img)})
+
+    // Attendee table render
+    function renderTable(){
+      const tbody = document.querySelector('#attTable tbody'); tbody.innerHTML='';
+      attendees.forEach(a=>{
+        const tr=document.createElement('tr'); tr.innerHTML=`<td>${escapeHtml(a.name)}</td><td>${escapeHtml(a.email)}</td><td>${a.tickets}</td><td>${a.time}</td>`; tbody.appendChild(tr)
+      })
+      document.getElementById('recentList').textContent = attendees.slice(-4).reverse().map(r=>`${r.name} (${r.tickets})`).join(' • ') || 'No RSVPs yet';
+      document.getElementById('seatsLeft').textContent = event.seats - attendees.reduce((s,a)=>s+a.tickets,0);
+    }
+    renderTable();
+
+    // RSVP form
+    document.getElementById('rsvpForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const tickets = parseInt(document.getElementById('tickets').value,10)||1;
+      if(!name||!email||!email.includes('@')){alert('Please enter a valid name and email');return}
+      if(event.seats - attendees.reduce((s,a)=>s+a.tickets,0) < tickets){alert('Not enough seats left');return}
+      const rec = {name,email,tickets,time:new Date().toLocaleString()};
+      attendees.push(rec); localStorage.setItem('rsvps_demo', JSON.stringify(attendees)); renderTable();
+      this.reset();
+    })
+
+    // CSV export
+    document.getElementById('downloadCsv').addEventListener('click', function(){
+      if(!attendees.length){alert('No attendees to export');return}
+      const rows = [['Name','Email','Tickets','Time'], ...attendees.map(a=>[a.name,a.email,a.tickets,a.time])];
+      const csv = rows.map(r=>r.map(cell=>`"${String(cell).replace(/"/g,'""')}"`).join(',')).join('\n');
+      const blob = new Blob([csv],{type:'text/csv'}); const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href=url; a.download = 'rsvps.csv'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    })
+
+    // Print event card
+    document.getElementById('printCardBtn').addEventListener('click', function(){
+      document.getElementById('pTitle').textContent = event.title;
+      document.getElementById('pMeta').textContent = event.date + ' • ' + event.location;
+      document.getElementById('pDesc').textContent = event.description;
+      // show printable then print
+      const p = document.getElementById('printable'); p.style.display='block'; window.print(); setTimeout(()=>{p.style.display='none'},800);
+    })
+
+    // small helper
+    function escapeHtml(s){return s.replace(/[&<>"']/g, function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c]})}
+
+    // Expose a small API for quick edits in console
+    window.EventDemo = {event,attendees,renderTable}
+  </script>
+</body>
+</html>
