@@ -1,3 +1,3 @@
-# college-admission-webpage-in-php
+# College Admission Webpage in PHP
 
-college admission form webpage using html structure and animated css with php background to store
+A responsive college admission form webpage built using HTML, CSS animations, and PHP backend for data storage.
